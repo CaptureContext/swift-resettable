@@ -96,7 +96,7 @@ final class ResettableTests: XCTestCase {
 		value.optional = .init()
 		XCTAssertEqual(resettable.wrappedValue, value)
 		
-		resettable.optional.value(1)
+		resettable.ifLet(\.optional).value(1)
 		value.optional?.value = 1
 		XCTAssertEqual(resettable.wrappedValue, value)
 		
@@ -163,7 +163,7 @@ final class ResettableTests: XCTestCase {
 		value.optional = .init()
 		XCTAssertEqual(resettable.wrappedValue, value)
 		
-		resettable.optional.value(1)
+		resettable.optional.ifLet.value(1)
 		value.optional?.value = 1
 		XCTAssertEqual(resettable.wrappedValue, value)
 		
@@ -186,7 +186,7 @@ final class ResettableTests: XCTestCase {
 		
 		XCTAssertEqual(resettable.wrappedValue, [second, first])
 		
-		resettable.collection[safe: 0].value(0)
+		resettable[mapPath: \.[safeIndex: 0]].ifLet.value(0)
 		second.value = 0
 		
 		XCTAssertEqual(resettable.wrappedValue, [second, first])
@@ -202,16 +202,18 @@ final class ResettableTests: XCTestCase {
 		XCTAssertEqual(resettable.wrappedValue, [second, first])
 		
 		let third = Object(value: -1)
+		resettable.collection.swapAt(0, 1)
+		XCTAssertEqual(resettable.wrappedValue, [first, second])
+
 		resettable
-			.collection.swapAt(0, 1)
-			.collection[safe: 0].value(2)
+			.collection[mapPath: \.[safeIndex: 0]].ifLet.value(2)
 			.collection.append(third)
 			._modify(
 				using: { $0.reverse() },
 				undo: { $0.reverse() }
 			)
+
 		first.value = 2
-		
 		XCTAssertEqual(resettable.wrappedValue, [third, second, first])
 		
 		resettable.redo().redo().redo() // no changes
@@ -364,7 +366,7 @@ final class ResettableTests: XCTestCase {
 		
 		XCTAssertEqual(resettable.wrappedValue, [second, first])
 		
-		resettable.collection[safe: 0].value(0)
+		resettable.collection[mapPath: \.[safeIndex: 0]].ifLet.value(0)
 		second.value = 0
 		
 		XCTAssertEqual(resettable.wrappedValue, [second, first])

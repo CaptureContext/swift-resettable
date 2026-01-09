@@ -1,93 +1,23 @@
-import FunctionalKeyPath
+import KeyPathsExtensions
+import KeyPathMapper
 
-extension Resettable where Object: Collection {
+extension Resettable where Base: Collection {
 	/// Creates a proxy for collection-based mutations
-	public var collection: WritableCollectionProxy<Object> {
-		WritableCollectionProxy(
+	public var collection: WritableKeyPathContainer<Base> {
+		WritableKeyPathContainer(
 			resettable: self,
-			keyPath: .init(
-				embed: { value, root in
-					return value
-				}, extract: { root in
-					return root
-				}
-			)
+			keyPath: \.self
 		)
 	}
 }
 
-extension Resettable {
-	public struct WritableCollectionProxy<Collection> where Collection: Swift.Collection {
-		@usableFromInline
-		internal init(
-			resettable: Resettable<Object>,
-			keyPath: FunctionalKeyPath<Object, Collection>
-		) {
-			self.resettable = resettable
-			self.keyPath = keyPath
-		}
-
-		var resettable: Resettable
-		var keyPath: FunctionalKeyPath<Object, Collection>
-
-		public subscript(_ idx: Collection.Index) -> KeyPathContainer<Collection.Element> {
-			return KeyPathContainer(
-				resettable: resettable,
-				keyPath: keyPath.appending(path: .getonlyIndex(idx))
-			)
-		}
-
-		public subscript(_ idx: Collection.Index) -> WritableKeyPathContainer<Collection.Element>
-		where Collection: Swift.MutableCollection {
-			return WritableKeyPathContainer(
-				resettable: resettable,
-				keyPath: keyPath.appending(path: .index(idx))
-			)
-		}
-
-		public subscript<T>(safe idx: Collection.Index) -> WritableKeyPathContainer<Collection.Element?>
-		where Collection == Array<T> {
-			return WritableKeyPathContainer(
-				resettable: resettable,
-				keyPath: keyPath.appending(path: FunctionalKeyPath.safeIndex(idx))
-			)
-		}
-	}
-
-	public struct CollectionProxy<Collection> where Collection: Swift.Collection {
-		@usableFromInline
-		internal init(
-			resettable: Resettable<Object>,
-			keyPath: FunctionalKeyPath<Object, Collection>
-		) {
-			self.resettable = resettable
-			self.keyPath = keyPath
-		}
-
-		var resettable: Resettable
-		var keyPath: FunctionalKeyPath<Object, Collection>
-
-		public subscript(_ idx: Collection.Index) -> KeyPathContainer<Collection.Element> {
-			return KeyPathContainer(
-				resettable: resettable,
-				keyPath: keyPath.appending(path: .getonlyIndex(idx))
-			)
-		}
-
-		public subscript<T>(safe idx: Collection.Index) -> KeyPathContainer<Collection.Element?>
-		where Collection == Array<T> {
-			return KeyPathContainer(
-				resettable: resettable,
-				keyPath: keyPath.appending(path: FunctionalKeyPath.safeIndex(idx))
-			)
-		}
-	}
-}
-
-extension Resettable.WritableCollectionProxy {
+extension Resettable.WritableKeyPathContainer where Value: Collection {
 	@discardableResult
-	public func swapAt<T>(_ idx1: Collection.Index, _ idx2: Collection.Index, operation: Resettable.OperationBehavior = .default) -> Resettable
-	where Collection == Array<T> {
+	public func swapAt<T>(
+		_ idx1: Value.Index,
+		_ idx2: Value.Index,
+		operation: Resettable.OperationBehavior = .default
+	) -> Resettable where Value == Array<T> {
 		resettable._modify(
 			operation: operation,
 			keyPath,
@@ -97,9 +27,11 @@ extension Resettable.WritableCollectionProxy {
 	}
 
 	@discardableResult
-	public func remove<T>(at idx: Collection.Index, operation: Resettable.OperationBehavior = .default) -> Resettable
-	where Collection == Array<T> {
-		let valueSnapshot = keyPath.extract(from: resettable.wrappedValue)[idx]
+	public func remove<T>(
+		at idx: Value.Index,
+		operation: Resettable.OperationBehavior = .default
+	) -> Resettable where Value == Array<T> {
+		let valueSnapshot = resettable.wrappedValue[keyPath: keyPath][idx]
 		return resettable._modify(
 			operation: operation,
 			keyPath,
@@ -109,8 +41,11 @@ extension Resettable.WritableCollectionProxy {
 	}
 
 	@discardableResult
-	public func insert<T>(_ element: Collection.Element, at idx: Collection.Index, operation: Resettable.OperationBehavior = .default) -> Resettable
-	where Collection == Array<T> {
+	public func insert<T>(
+		_ element: Value.Element,
+		at idx: Value.Index,
+		operation: Resettable.OperationBehavior = .default
+	) -> Resettable where Value == Array<T> {
 		return resettable._modify(
 			operation: operation,
 			keyPath,
@@ -120,8 +55,10 @@ extension Resettable.WritableCollectionProxy {
 	}
 
 	@discardableResult
-	public func append<T>(_ element: Collection.Element, operation: Resettable.OperationBehavior = .default) -> Resettable
-	where Collection == Array<T> {
+	public func append<T>(
+		_ element: Value.Element,
+		operation: Resettable.OperationBehavior = .default
+	) -> Resettable where Value == Array<T> {
 		return resettable._modify(
 			operation: operation,
 			keyPath,

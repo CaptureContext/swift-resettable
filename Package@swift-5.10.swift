@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 5.10
 
 import PackageDescription
 
@@ -57,6 +57,5 @@ let package = Package(
 				.target(name: "_ResettableDebugging"),
 			]
 		),
-	],
-	swiftLanguageModes: [.v6]
+	]
 )
