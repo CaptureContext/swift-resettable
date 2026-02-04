@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 5.9
 
 import PackageDescription
 
@@ -24,7 +24,7 @@ let package = Package(
 	dependencies: [
 		.package(
 			url: "https://github.com/capturecontext/swift-keypaths-extensions.git",
-			.upToNextMinor(from: "0.1.0")
+			.upToNextMinor(from: "0.1.5")
 		),
 		.package(
 			url: "https://github.com/pointfreeco/swift-custom-dump",
