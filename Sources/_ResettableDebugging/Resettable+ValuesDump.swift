@@ -5,9 +5,9 @@ extension Resettable {
 	@available(
 		*, deprecated,
 		message: """
-		Might be removed due to Value type constraint,
-		which makes the behavior unstable,
-		consider re-implementing this feature locally if you need
+		Might be removed due to lack of Value type constraint, \
+		which makes the behavior unstable, \
+		consider re-implementing this feature locally if needed
 		"""
 	)
 	public struct ValuesDump {
@@ -30,12 +30,11 @@ extension Resettable {
 	@available(
 		*, deprecated,
 		 message: """
-			Might be removed due to Value type constraint, \
-			which makes the behavior unstable, \
-			consider re-implementing this feature locally if needed
+		Might be removed due to lack of Value type constraint, \
+		which makes the behavior unstable, \
+		consider re-implementing this feature locally if needed
 		"""
 	)
-
 	public func valuesDump() -> ValuesDump {
 		let _pointer = pointer
 		while pointer !== undo().pointer {}
