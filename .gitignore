@@ -1,8 +1,6 @@
 .DS_Store
 /.build
-/Packages
 xcuserdata/
+Build/
 DerivedData/
-.swiftpm
-.netrc
 Package.resolved
