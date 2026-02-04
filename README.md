@@ -1,6 +1,6 @@
 # swift-resettable
 
-[![SwiftPM 6.2](https://img.shields.io/badge/Swift-6.2_|_5.10-ED523F.svg?style=flat)](https://swift.org/download/) ![Platforms](https://img.shields.io/badge/Platforms-iOS_13_|_macOS_10.15_|_tvOS_14_|_watchOS_7-ED523F.svg?style=flat) [![@capture_context](https://img.shields.io/badge/contact-@capture__context-1DA1F2.svg?style=flat&logo=twitter)](https://twitter.com/capture_context) 
+[![CI](https://github.com/capturecontext/swift-resettable/actions/workflows/ci.yml/badge.svg)](https://github.com/capturecontext/swift-resettable/actions/workflows/ci.yml) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fcapturecontext%2Fswift-resettable%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/capturecontext/swift-resettable) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fcapturecontext%2Fswift-resettable%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/capturecontext/swift-resettable)
 
 Swift undo-redo manager
 
@@ -82,7 +82,7 @@ If you use SwiftPM for your project, you can add Resettable to your package file
 ```swift
 .package(
   url: "https://github.com/capturecontext/swift-resettable.git", 
-  .upToNextMinor(from: "0.1.0")
+  .upToNextMinor(from: "0.1.1")
 )
 ```
 
@@ -97,4 +97,4 @@ Do not forget about target dependencies:
 
 ## License
 
-This library is released under the MIT license. See [LICENCE](LICENCE) for details.
+This library is released under the MIT license. See [LICENSE](LICENSE) for details.
