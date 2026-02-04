@@ -1,5 +1,5 @@
 import KeyPathsExtensions
-@_spi(Internals) import SwiftMarkerProtocols
+import SwiftMarkerProtocols
 
 extension Resettable {
 	public enum OperationBehavior {
@@ -588,7 +588,7 @@ extension Resettable {
 
 extension Resettable where Base: _OptionalProtocol {
 	public var ifLet: IfLetWritableKeyPathContainer<Base.Wrapped> {
-		.init(resettable: self, keyPath: \.__marker_value)
+		.init(resettable: self, keyPath: \._optional)
 	}
 }
 
@@ -622,7 +622,7 @@ extension Resettable.WritableKeyPathContainer where Value: _OptionalProtocol {
 	/// .ifLet(\.optionalProperty).subproperty(value) // ✅ this also works
 	/// ```
 	public var ifLet: Resettable<Base>.IfLetWritableKeyPathContainer<Value.Wrapped> {
-		.init(resettable: resettable, keyPath: keyPath.appending(path: \.__marker_value))
+		.init(resettable: resettable, keyPath: keyPath.appending(path: \._optional))
 	}
 
 	/// Registers update for the current value. Applied only if currentValue is nil
@@ -646,7 +646,7 @@ extension Resettable.WritableKeyPathContainer where Value: _OptionalProtocol {
 		_ value: Value,
 		operation: Resettable.OperationBehavior = .default
 	) -> Resettable {
-		guard resettable.wrappedValue[keyPath: keyPath].__marker_value == nil
+		guard resettable.wrappedValue[keyPath: keyPath]._optional == nil
 		else { return resettable }
 		return resettable._modify(
 			operation: operation,
@@ -672,7 +672,7 @@ extension Resettable.KeyPathContainer where Value: _OptionalProtocol {
 	/// .ifLet(\.optionalProperty).subproperty(value) // ✅ this also works
 	/// ```
 	public var ifLet: Resettable<Base>.IfLetKeyPathContainer<Value.Wrapped> {
-		.init(resettable: resettable, keyPath: keyPath.appending(path: \.__marker_value))
+		.init(resettable: resettable, keyPath: keyPath.appending(path: \._optional))
 	}
 }
 
@@ -894,10 +894,10 @@ extension Resettable.IfLetKeyPathContainer {
 
 extension Optional where Wrapped: _OptionalProtocol {
 	var __flattened_non_aggressive_marker_value: Wrapped.Wrapped? {
-		get { self.flatMap(\.__marker_value) }
+		get { self.flatMap(\._optional) }
 		set {
 			guard var wrapped = self else { return }
-			wrapped.__marker_value = newValue
+			wrapped._optional = newValue
 			self = wrapped
 		}
 	}
