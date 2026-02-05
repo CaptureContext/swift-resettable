@@ -1,20 +1,25 @@
 version: 1
 builder:
-	configs:
-	- platform: ios
-		scheme: Resettable
-	- platform: macos-xcodebuild
-		scheme: Resettable
-	- platform: tvos
-		scheme: Resettable
-	- platform: watchos
-		scheme: Resettable
-	- platform: linux
-		scheme: Resettable
-		swift_version: '5.9'
-	- platform: linux
-		scheme: Resettable
-		swift_version: '6.0'
+  configs:
+  - platform: ios
+    scheme: Resettable
+    
+  - platform: macos-xcodebuild
+    scheme: Resettable
 
-	- documentation_targets:
-		- Resettable
+  - platform: tvos
+    scheme: Resettable
+
+  - platform: watchos
+    scheme: Resettable
+
+  - platform: linux
+    scheme: Resettable
+    swift_version: '5.9'
+
+  - platform: linux
+    scheme: Resettable
+    swift_version: '6.0'
+
+  - documentation_targets:
+    - Resettable
