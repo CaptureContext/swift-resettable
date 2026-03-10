@@ -69,24 +69,24 @@ Undo and redo operate on recorded value states, allowing you to navigate mutatio
 
 ### Basic
 
-You can add Resettable to an Xcode project by adding it as a package dependency.
+You can add `swift-resettable` to an Xcode project by adding it as a package dependency.
 
 1. From the **File** menu, select **Swift Packages › Add Package Dependency…**
-2. Enter [`"https://github.com/capturecontext/swift-resettable.git"`](https://github.com/capturecontext/swift-resettable.git) into the package repository URL text field
-3. Choose products you need to link them to your project.
+2. Enter [`"https://github.com/capturecontext/swift-resettable"`](https://github.com/capturecontext/swift-resettable) into the package repository URL text field
+3. Choose products you need to link to your project.
 
 ### Recommended
 
-If you use SwiftPM for your project, you can add Resettable to your package file.
+If you use SwiftPM for your project structure, add `swift-resettable` dependency to your package file
 
 ```swift
 .package(
   url: "https://github.com/capturecontext/swift-resettable.git", 
-  .upToNextMinor(from: "0.1.1")
+  .upToNextMinor("0.3.0")
 )
 ```
 
-Do not forget about target dependencies:
+Do not forget about target dependencies
 
 ```swift
 .product(
