@@ -1,5 +1,5 @@
 import KeyPathsExtensions
-import KeyPathMapper
+import KeyPathMapping
 
 extension Resettable where Base: Collection {
 	/// Creates a proxy for collection-based mutations
